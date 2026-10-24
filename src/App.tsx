@@ -272,7 +272,7 @@ function App() {
           <div className="actions"><a className="btn btn-primary" href="#work">Explore selected work <Arrow /></a><a className="btn btn-secondary" href={mailto('Résumé request')} target="_blank" rel="noopener noreferrer">Request résumé <Arrow diagonal /></a></div>
           <div className="hero-meta">
             <div className="meta-item"><span>Current chapter</span><span>Software Engineer</span></div>
-            <div className="meta-item tech-stack"><span>Building with</span><span>Java Spring Boot Kafka Avro React TypeScript REST APIs PostgreSQL MongoDB Docker Kubernetes Jenkins GitHub Actions JUnit Mockito BDD AWS</span></div>
+            <div className="meta-item tech-stack"><span>Building with</span><span>Java, Spring Boot, Kafka, Avro, React, TypeScript, REST APIs, PostgreSQL, MongoDB, Docker, Kubernetes, Jenkins, GitHub Actions, JUnit, Mockito, BDD, AWS</span></div>
           </div>
         </div>
         <SystemExplorer />
@@ -287,7 +287,7 @@ function App() {
         <div className="stack-group"><h3>Quality & delivery</h3><p>JUnit<br />Mockito<br />BDD<br />CI/CD<br />GitHub Actions / Jenkins</p></div>
         <div className="stack-group"><h3>Cloud & platform</h3><p>AWS<br />Docker<br />Kubernetes<br />Git<br />SAST & platform reliability</p></div>
       </div></div></section></div>
-      <section id="education"><div className="wrap"><div className="section-head reveal"><div className="section-index">04 / BACKGROUND</div><div><h2>Grounded in fundamentals.<br /><em>Always learning.</em></h2><p>My work is shaped by practical systems thinking, software engineering fundamentals, and a strong bias toward learning by doing.</p></div></div><div className="education"><div className="edu-card reveal"><div className="kicker">Education</div><h3>B.Tech – Computer Science & Engineering</h3><p>Vellore Institute of Technology (VIT), Vellore</p><div className="edu-meta"><span>CGPA: 9.67 / 10.0</span><span>Graduated Jan 2024</span></div></div><div className="edu-card reveal"><div className="kicker">Certifications</div><h3>Cloud & AI</h3><p>AWS Certified Cloud Practitioner<br />AWS Certified AI Practitioner</p></div></div></div></section>
+      <section id="education"><div className="wrap"><div className="section-head reveal"><div className="section-index">04 / BACKGROUND</div><div><h2>Grounded in fundamentals.<br /><em>Always learning.</em></h2><p>My work is shaped by practical systems thinking, software engineering fundamentals, and a strong bias toward learning by doing.</p></div></div><div className="education"><div className="edu-card reveal"><div className="kicker">Education</div><h3>Vellore Institute of Technology (VIT), Vellore</h3><p><span>CGPA: 9.67 / 10.0</span> <span>• Graduated Jan 2024</span></p></div><div className="edu-card reveal"><div className="kicker">Certifications</div><h3>Cloud & AI</h3><p>AWS Certified Cloud Practitioner<br />AWS Certified AI Practitioner</p></div></div></div></section>
       <Contact />
     </main>
     <footer><div className="wrap footer-row"><span>© {new Date().getFullYear()} TANISHK MEHTA · MADE WITH INTENT</span><span>SOFTWARE ENGINEER / BENGALURU, INDIA</span><div className="footer-links"><a href={mailto('Email')}>Email</a><a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a></div></div></footer>
