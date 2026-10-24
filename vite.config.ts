@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react';
 // https://tanishk-mehta.github.io/tanishkmehta.github.io/
 export default defineConfig({
   plugins: [react()],
-  base: '/tanishkmehta.github.io/',
+  base: '/tanishk-mehta.github.io/',
 });
