@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tanishk-mehta.github.io/tanishkmehta.github.io/sitemap.xml
