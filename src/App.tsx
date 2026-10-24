@@ -32,7 +32,7 @@ const stages: { key: StageKey; title: string; label: string; sublabel: string; d
 const projects = [
   {
     number: 'CASE STUDY / 01', type: 'EVENT-DRIVEN DATA', title: 'Making data movement dependable',
-    description: 'Contributed to a payment-file ingestion workflow involving file preparation, Kafka-based messaging, Avro serialization, downstream transformation, validation, and persistence. The work sits at the intersection of throughput, data correctness, and operational resilience.',
+    description: 'Contributed to a payment-file ingestion workflow involving file preparation, Kafka-based messaging, Avro serialization, downstream transformation, validation, and persistence. This work focused on predictable throughput and dependable recovery paths.',
     tags: ['Java', 'Spring Boot', 'Kafka', 'Avro', 'Data reliability'], visual: 'pipeline',
     subject: 'Payment pipeline case study', linkText: 'Discuss the engineering decisions',
   },
@@ -50,8 +50,36 @@ const projects = [
   },
 ];
 
+function gmailComposeUrl(subject: string, body = '') {
+  const params = new URLSearchParams({
+    view: 'cm',
+    fs: '1',
+    to: EMAIL,
+  });
+
+  if (subject.trim()) {
+    params.set('su', subject.trim());
+  }
+
+  if (body.trim()) {
+    params.set('body', body.trim());
+  }
+
+  return `https://mail.google.com/mail/?${params.toString()}`;
+}
+
 function mailto(subject: string, body = '') {
-  return `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}${body ? `&body=${encodeURIComponent(body)}` : ''}`;
+  return gmailComposeUrl(subject, body);
+}
+
+function openEmailComposer(subject: string, body = '') {
+  const url = gmailComposeUrl(subject, body);
+
+  if (typeof window !== 'undefined') {
+    window.open(url, '_blank', 'noopener,noreferrer,width=720,height=640');
+  }
+
+  return url;
 }
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
@@ -158,7 +186,7 @@ function ProjectVisual({ type }: { type: string }) {
   if (type === 'ui') {
     return <div className="visual-ui" aria-hidden="true"><div className="ui-sidebar"><i /><i /><i /><i /></div><div className="ui-main"><i /><i /><i /><i /><i /></div></div>;
   }
-  return <div className="visual-deploy" aria-hidden="true"><div className="deploy-node">CODE</div><div className="deploy-line" /><div className="deploy-node">TEST</div><div className="deploy-line" /><div className="deploy-node">SHIP</div></div>;
+  return <div className="visual-deploy" aria-hidden="true"><div className="deploy-node">CODE</div><div className="deploy-line" /><div className="deploy-node">TEST</div><div className="deploy-line" /><div className="deploy-node">DEPLOY</div></div>;
 }
 
 function Projects() {
@@ -169,7 +197,7 @@ function Projects() {
       <h3>{project.title}</h3>
       <p>{project.description}</p>
       <div className="tags">{project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
-      <a className="project-link" href={mailto(project.subject)}><span>{project.linkText}</span><span aria-hidden="true">↗</span></a>
+      <a className="project-link" href={mailto(project.subject)} target="_blank" rel="noopener noreferrer"><span>{project.linkText}</span><span aria-hidden="true">↗</span></a>
     </article>)}
   </div>;
 }
@@ -187,7 +215,7 @@ function Contact() {
     const message = String(data.get('message') ?? '').trim();
     const body = `Hi Tanishk,\n\n${message}\n\n— ${name}\nReply to: ${email}`;
     setFormMessage('Your email application should open with the message prepared. If it does not, email tanishkmehta6@gmail.com directly.');
-    window.location.href = mailto(subject, body);
+    openEmailComposer(subject || "Let's connect", body);
   };
 
   return <section className="contact-section" id="contact"><div className="wrap"><div className="contact-panel reveal"><div className="contact-content">
@@ -195,7 +223,7 @@ function Contact() {
     <h2>Have a good<br />problem? <em>Let's talk.</em></h2>
     <p>Interested in backend engineering, distributed systems, platform work, or thoughtful collaboration? Send a note. I would be glad to connect.</p>
     <div className="contact-links">
-      <a className="btn btn-primary" href={mailto("Let's connect")}>Email me <Arrow diagonal /></a>
+      <a className="btn btn-primary" href={mailto("Let's connect")} target="_blank" rel="noopener noreferrer">Email me <Arrow diagonal /></a>
       <a className="btn btn-secondary" href={LINKEDIN} target="_blank" rel="noopener noreferrer">Connect on LinkedIn <Arrow diagonal /></a>
     </div>
     <form className="contact-form" onSubmit={handleSubmit}>
@@ -234,25 +262,20 @@ function App() {
         <div className="hero-copy">
           <div className="eyebrow kicker"><span className="dot" /> SOFTWARE ENGINEER <span className="eyebrow-slash">/</span> BENGALURU, INDIA</div>
           <h1>Systems<br />that move<br /><span className="serif accent">the world.</span></h1>
-          <p className="hero-lede">I build <strong>reliable software for complex flows of data</strong> — from event-driven payment pipelines to applications that make critical work simpler. Java and Spring Boot at the core, with a full-stack perspective.</p>
-          <div className="actions"><a className="btn btn-primary" href="#work">Explore selected work <Arrow /></a><a className="btn btn-secondary" href={mailto('Résumé request')}>Request résumé <Arrow diagonal /></a></div>
-          <div className="hero-meta"><div className="meta-item"><span>Current chapter</span><span>Software Engineer</span></div><div className="meta-item"><span>Building with</span><span>Java · Kafka · Spring</span></div><div className="meta-item"><span>Open to</span><span>Engineering opportunities</span></div></div>
+          <p className="hero-lede">I build <strong>reliable software for complex flows of data</strong> — from event-driven payment pipelines to applications that make critical work simpler. Java, Spring Boot, Kafka, and thoughtful system design are at the core of how I work.</p>
+          <div className="actions"><a className="btn btn-primary" href="#work">Explore selected work <Arrow /></a><a className="btn btn-secondary" href={mailto('Résumé request')} target="_blank" rel="noopener noreferrer">Request résumé <Arrow diagonal /></a></div>
+          <div className="hero-meta"><div className="meta-item"><span>Current chapter</span><span>Software Engineer</span></div><div className="meta-item"><span>Building with</span><span>Java · Spring Boot · Kafka · React</span></div></div>
         </div>
         <SystemExplorer />
       </div>
-      <div className="marquee" aria-hidden="true"><div className="marquee-track">{Array.from({ length: 2 }, (_, index) => <div className="marquee-group" key={index}><span>Distributed systems</span><span>Event-driven architecture</span><span>Java & Spring Boot</span><span>Kafka & Avro</span><span>Data reliability</span><span>Thoughtful interfaces</span></div>)}</div></div>
-      <section id="work"><div className="wrap"><div className="section-head reveal"><div className="section-index">01 / SELECTED WORK</div><div><h2>Less noise.<br /><em>More substance.</em></h2><p>A few engineering chapters that show how I think about reliability, maintainability, and moving systems forward. The details here are intentionally high-level and sanitized.</p></div></div><Projects /></div></section>
-      <section id="about"><div className="wrap"><div className="section-head reveal"><div className="section-index">02 / THE PERSON BEHIND THE SYSTEMS</div><div><h2>Curiosity is the<br /><em>real infrastructure.</em></h2></div></div><div className="about-layout">
-        <aside className="about-aside reveal"><div className="about-stamp"><div className="stamp-text"><strong>TM.</strong><span>BUILT WITH INTENT</span></div></div><p className="about-note">A software engineer interested in what makes systems reliable — and what makes the people building them better.</p></aside>
-        <div className="about-copy reveal"><h3>I care about how things work, why they fail, and how to make them better.</h3><p>My work spans backend engineering, data pipelines, and full-stack product development. I enjoy the parts of engineering where correctness matters: clear interfaces between services, predictable data transformations, useful tests, and systems that are easier to operate.</p><p>I also care about the experience around the code — how teammates work with a system, how a tool communicates its state, and how thoughtful design can make complexity feel manageable.</p>
-          <div className="timeline"><div className="timeline-item"><div className="timeline-date">SEP 2025 — NOW</div><div className="timeline-content"><h4>Software Engineer · Wells Fargo India</h4><p>Payment processing, Kafka-based ingestion, and backend systems · Bengaluru</p></div></div><div className="timeline-item"><div className="timeline-date">AUG 2024 — SEP 2025</div><div className="timeline-content"><h4>Program Associate — Full-Stack Engineering</h4><p>React modernization, Spring Boot integration, and accessible interfaces</p></div></div><div className="timeline-item"><div className="timeline-date">FEB — JUN 2024</div><div className="timeline-content"><h4>Intern Analyst</h4><p>Full-stack application development and dynamic financial-data forms · Hyderabad</p></div></div></div>
-        </div>
-      </div></div></section>
-      <div className="stack-section" id="stack"><section><div className="wrap stack-layout"><div className="stack-intro reveal"><div className="section-index">03 / TOOLKIT</div><h2>The tools are<br />only the start.</h2><p>I choose tools to solve the problem at hand — with an emphasis on clear interfaces, maintainable code, and dependable delivery.</p></div><div className="stack-groups reveal"><div className="stack-group"><h3>01 / Backend & core</h3><p>Java<br />Spring Boot<br />REST APIs<br />Object-oriented design</p></div><div className="stack-group"><h3>02 / Data & messaging</h3><p>Apache Kafka<br />Avro<br />SQL & relational databases<br />MongoDB</p></div><div className="stack-group"><h3>03 / Testing & quality</h3><p>JUnit · Mockito<br />BDD & API testing<br />Code quality<br />Security scanning</p></div><div className="stack-group"><h3>04 / Delivery & interface</h3><p>GitHub Actions · CI/CD<br />Docker · Kubernetes fundamentals<br />React · JavaScript<br />HTML · CSS</p></div></div></div></section></div>
-      <section id="education"><div className="wrap"><div className="section-head reveal"><div className="section-index">04 / BACKGROUND</div><div><h2>Grounded in fundamentals.<br /><em>Always learning.</em></h2><p>A computer science foundation, a habit of learning, and a growing interest in dependable cloud-native systems.</p></div></div><div className="education"><article className="edu-card reveal"><div className="kicker">EDUCATION / 01</div><h3>Vellore Institute of Technology</h3><p>B.Tech — Computer Science & Engineering</p><div className="edu-foot"><span>CLASS OF 2024</span><span>CGPA 9.67 / 10</span></div></article><article className="edu-card reveal"><div className="kicker">EDUCATION / 02</div><h3>Central Academy Senior Secondary School</h3><p>Senior secondary education</p><div className="edu-foot"><span>CLASS OF 2020</span><span>95.2%</span></div></article></div><div className="credentials reveal"><div className="credential"><b>↗</b> AWS Certified Cloud Practitioner</div><div className="credential"><b>↗</b> AWS Certified AI Practitioner</div><div className="credential"><b>↗</b> McKinsey.org Forward · Class of 2025</div><div className="credential"><b>↗</b> State-level badminton</div></div></div></section>
+      <div className="marquee" aria-hidden="true"><div className="marquee-track">{Array.from({ length: 2 }, (_, index) => <div className="marquee-group" key={index}><span>Distributed systems</span><span>Backend engineering</span><span>Data pipelines</span><span>Clear interfaces</span><span>Reliable delivery</span></div>)}</div></div>
+      <section id="work"><div className="wrap"><div className="section-head reveal"><div className="section-index">01 / SELECTED WORK</div><div><h2>Less noise.<br /><em>More substance.</em></h2><p>Focus on the systems that matter — where throughput, correctness, and delivery quality create durable value.</p></div></div><Projects /></div></section>
+      <section id="about"><div className="wrap"><div className="section-head reveal"><div className="section-index">02 / THE PERSON BEHIND THE SYSTEMS</div><div><h2>Curiosity is the<br /><em>real engine.</em></h2></div></div><div className="about-layout"><div className="about-copy reveal"><p>I care about how things work, why they fail, and how to make them better.</p><p>My work spans backend engineering, data pipelines, and full-stack product delivery. I enjoy tightening feedback loops, simplifying complexity, and building systems people can trust.</p><div className="timeline"><div className="timeline-item"><div className="timeline-date">SEP 2025 — NOW</div><div className="timeline-content"><h4>Software Engineer · Wells Fargo India</h4><p>Building and improving distributed, data-heavy systems with a focus on reliability and maintainability.</p></div></div><div className="timeline-item"><div className="timeline-date">2023 — 2025</div><div className="timeline-content"><h4>Application Development</h4><p>Worked across backend services, platform tooling, and frontend integration with an emphasis on clear contracts and high-quality delivery.</p></div></div></div></div><aside className="about-aside reveal"><div className="about-stamp"><div className="stamp-text"><strong>TM.</strong><span>BUILT WITH INTENT</span></div></div><p className="about-note">A systems-minded engineer who values strong design, calm execution, and learning from what's in front of him.</p></aside></div></div></section>
+      <div className="stack-section" id="stack"><section><div className="wrap stack-layout"><div className="stack-intro reveal"><div className="section-index">03 / TOOLKIT</div><h2>The tools are<br /><em>only a means.</em></h2></div><div className="stack-grid reveal"><span>Java</span><span>Spring Boot</span><span>Kafka</span><span>Avro</span><span>React</span><span>TypeScript</span><span>REST</span><span>CI/CD</span><span>GitHub Actions</span><span>SQL</span></div></div></section></div>
+      <section id="education"><div className="wrap"><div className="section-head reveal"><div className="section-index">04 / BACKGROUND</div><div><h2>Grounded in fundamentals.<br /><em>Always learning.</em></h2></div></div><div className="education-grid reveal"><div className="education-card"><h3>Engineering mindset</h3><p>I thrive in ambiguity, but I prefer to structure it into reliable systems with explicit boundaries and measurable outcomes.</p></div><div className="education-card"><h3>Team-first</h3><p>I enjoy collaborating across functions, aligning designs, and creating code that other engineers can reason about and extend confidently.</p></div></div></div></section>
       <Contact />
     </main>
-    <footer><div className="wrap footer-row"><span>© {new Date().getFullYear()} TANISHK MEHTA · MADE WITH INTENT</span><span>SOFTWARE ENGINEER / BENGALURU, INDIA</span><div className="footer-links"><a href={`mailto:${EMAIL}`}>EMAIL ↗</a><a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LINKEDIN ↗</a><a href="#top">BACK TO TOP ↑</a></div></div></footer>
+    <footer><div className="wrap footer-row"><span>© {new Date().getFullYear()} TANISHK MEHTA · MADE WITH INTENT</span><span>SOFTWARE ENGINEER / BENGALURU, INDIA</span><div className="footer-links"><a href={mailto('Hello')} target="_blank" rel="noopener noreferrer">Email</a><a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a></div></div></footer>
   </div>;
 }
 
